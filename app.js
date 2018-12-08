@@ -22,7 +22,7 @@ var conn = mysql.createConnection({
   user     : 'root',
   password : 'root',
   database : 'news',
-  port: 3306  /* 8889 on Mac client */
+  port: 8889  /* 8889 on Mac client */
 });
 
 /* Upload */

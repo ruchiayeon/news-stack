@@ -3,6 +3,20 @@ module.exports = function(app, conn, upload) {
   var router = express.Router();
   var category = require('../lib/category.js');
 
+  /* form comment 데이터 DB insert*/
+  router.post ('/comment',(req,res) => {
+    var comment = req.body.comment;
+    var articleId= req.body.articleId;
+    var sql = "INSERT INTO comment ('comment', 'articleId','inserted') VALUES(?,?,now())";
+    conn.query(sql,[comment,articleId], function(err,result,fields){
+      if(err){
+        console.log(err)
+        res.status(500).send('Internal Server Error:' +err);
+      } else {
+        res.redirect('/news/'+result.insertId);
+      }
+    });
+  });
   /* 목록 */
   router.get('/', (req, res) => {
     var selectedCategory = req.query.category;
@@ -139,6 +153,8 @@ module.exports = function(app, conn, upload) {
       }
     });
   });
+
+
 
   /* 상세보기 */
   router.get('/:id', (req, res) => {
